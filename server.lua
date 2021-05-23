@@ -25,8 +25,7 @@ addUser = function (page, name, surname, address)
 	if isRequestBlocked() then 
 		return outputChatBox("Слишком частые запросы!", client, 255, 0, 0, true)
 	end
-	local q = dbQuery(connection, "INSERT INTO users (name, surname, address) VALUES (?, ?, ?)", name, surname, address)
-	dbFree(q)
+	dbExec(connection, "INSERT INTO users (name, surname, address) VALUES (?, ?, ?)", name, surname, address)
 
 	getUsers(client, page)
 end
@@ -37,8 +36,7 @@ onUserUpdated = function (page, ID, name, surname, address)
 	if isRequestBlocked() then 
 		return outputChatBox("Слишком частые запросы!", client, 255, 0, 0, true)
 	end
-    local q = dbQuery(connection, "UPDATE users SET name = ?, surname = ?, address = ? WHERE ID = ?", name, surname, address, ID)
-    dbFree(q)
+    dbExec(connection, "UPDATE users SET name = ?, surname = ?, address = ? WHERE ID = ?", name, surname, address, ID)
 
     getUsers(client, page)
 end
@@ -49,8 +47,7 @@ deleteUser = function (page, ID)
 	if isRequestBlocked() then 
 		return outputChatBox("Слишком частые запросы!", client, 255, 0, 0, true)
 	end
-    local q = dbQuery(connection, "DELETE FROM users WHERE ID = ?", tonumber(ID))
-    dbFree(q)
+    dbExec(connection, "DELETE FROM users WHERE ID = ?", tonumber(ID))
 
     getUsers(client, page)
 end
